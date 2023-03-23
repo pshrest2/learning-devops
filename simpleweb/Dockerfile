@@ -1,6 +1,9 @@
 # Specify a base image
 FROM node:14-alpine
 
+# Set work directory
+WORKDIR /usr/app
+
 # Copy everything from current directory to container directory
 COPY ./ ./
 
