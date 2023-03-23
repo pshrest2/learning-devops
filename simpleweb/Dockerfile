@@ -5,10 +5,12 @@ FROM node:14-alpine
 WORKDIR /usr/app
 
 # Copy everything from current directory to container directory
-COPY ./ ./
+COPY ./package.json ./
 
 # Install dependencies
 RUN npm install
+
+COPY ./ ./
 
 # Setup startup command
 CMD ["npm", "start"]
