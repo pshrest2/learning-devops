@@ -5,10 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-      - uses: actions/checkout@v3
-      - id: foo
-        uses: actions/practice-composite-actions@v1
+      - name: Check out repository
+        uses: actions/checkout@v3
+        with:
+          repository: practice-composite-actions
+      - name: Run composite action
+        id: foo
+        uses: ./action
         with:
           who-to-greet: "Mona the Octocat"
-      - run: echo random-number ${{ steps.foo.outputs.random-number }}
+      - name: Grab the random number from composite action's output
+        run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash
