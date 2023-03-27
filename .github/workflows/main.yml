@@ -10,7 +10,7 @@ jobs:
         with:
           repository: pshrest2/practice-composite-actions
           ref: main
-          path: .github/actions/practice-composite-actions
+          path: ./.github/actions/practice-composite-actions
       - name: Run composite action
         id: foo
         uses: .github/actions/practice-composite-actions@main
