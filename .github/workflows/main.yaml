@@ -21,4 +21,4 @@ jobs:
         shell: bash
   common_job:
     name: Common Job
-    uses: pshrest2/DockerPractice/.github/workflows/common.yaml@main
+    uses: ./common.yaml@main
