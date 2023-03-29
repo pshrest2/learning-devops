@@ -20,4 +20,4 @@ jobs:
         run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash
       - name: Call the reusuable workflow
-        uses: pshrest2/DockerPractice/.github/workflows/common.yml@main
+        uses: pshrest2/DockerPractice/.github/workflows/common.yaml@main
