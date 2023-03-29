@@ -21,4 +21,4 @@ jobs:
         shell: bash
   common_job:
     name: Common Job
-    uses: ./common.yaml@main
+    uses: .github/workflows/common.yaml@main
