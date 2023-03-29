@@ -19,5 +19,5 @@ jobs:
       - name: Grab the random number from composite action's output
         run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash
-      - name: Call the reusuable workflow
-        uses: pshrest2/DockerPractice/.github/workflows/common.yaml@main
+  common_job:
+    uses: pshrest2/DockerPractice/.github/workflows/common.yaml@main
