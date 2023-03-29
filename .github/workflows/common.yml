@@ -1,4 +1,5 @@
 name: Common Worlflow
+
 on:
   workflow_call:
 
