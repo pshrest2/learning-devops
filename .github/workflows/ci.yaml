@@ -13,13 +13,8 @@ jobs:
       - name: Checkout Branch
         uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-
-      - name: Run npm install
-        run: npm install
-
       - name: Build Docker Image
         run: docker build -t pshrestha/frontend -f Dockerfile.dev .
+
+      - name: Run Test
+        run: docker run -e CI=true pshrestha/frontend npm run test
