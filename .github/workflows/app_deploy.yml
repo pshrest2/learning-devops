@@ -44,7 +44,10 @@ jobs:
         with:
           resource-group: learning
           dns-name-label: learning-devops
+          cpu: 1
+          memory: 1
           image: ${{ secrets.DOCKERHUB_USERNAME }}:${{ env.SHORT_SHA }}
+          registry-login-server: "hub.docker.com"
           registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
           registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
           name: learning-devops
