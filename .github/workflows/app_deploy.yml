@@ -7,7 +7,7 @@ on:
 
 env:
   AZURE_RESOURCE_GROUP: learning
-  CONTAINER_NAME: learning-devops
+  CONTAINER_NAME: simple-react-app
   IMAGE_NAME: learning-devops
 
 jobs:
@@ -39,16 +39,11 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_SHA }}
 
-      - name: "Deploy to Azure Container Instances"
-        uses: "azure/aci-deploy@v1"
-        with:
-          resource-group: learning
-          dns-name-label: learning-devops
-          cpu: 1
-          memory: 1
-          image: ${{ secrets.DOCKERHUB_USERNAME }}:${{ env.SHORT_SHA }}
-          registry-login-server: "hub.docker.com"
-          registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
-          registry-password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          name: learning-devops
-          location: "east us"
+      - name: Deploy to Azure Container Instance
+        run: |
+          az container delete --name ${{ env.CONTAINER_NAME }} --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --yes
+          az container create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
+                              --name ${{ env.CONTAINER_NAME }} \
+                              --image ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_SHA }} \
+                              --dns-name-label ${{ env.CONTAINER_NAME }}-dns \
+                              --ports 80
