@@ -7,7 +7,7 @@ on:
 
 env:
   AZURE_RESOURCE_GROUP: learning
-  CONTAINER_NAME: learning-devops
+  CONTAINER_NAME: simple-react-app
   IMAGE_NAME: learning-devops
 
 jobs:
@@ -17,6 +17,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Extract short SHA
         run: echo "SHORT_SHA=$(echo ${{ github.sha }} | head -c 7)" >> $GITHUB_ENV
@@ -33,3 +38,12 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_SHA }}
+
+      - name: Deploy to Azure Container Instance
+        run: |
+          az container delete --name ${{ env.CONTAINER_NAME }} --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --yes
+          az container create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
+                              --name ${{ env.CONTAINER_NAME }} \
+                              --image ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_SHA }} \
+                              --dns-name-label ${{ env.CONTAINER_NAME }}-dns \
+                              --ports 80
